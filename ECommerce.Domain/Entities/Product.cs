@@ -1,14 +1,17 @@
-﻿using System;
+﻿//using MathNet.Numerics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+//using Microsoft.EntityFrameworkCore;
+
 
 namespace ECommerce.Domain.Entities
 {
     public class Product
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
 
         public string description { get; set; }
@@ -18,5 +21,7 @@ namespace ECommerce.Domain.Entities
         public int CategoryId { get; set; }
 
         public Category?  Category { get; set; }
+        public string? ImageUrl { get; set; } // NEW
+
     }
 }

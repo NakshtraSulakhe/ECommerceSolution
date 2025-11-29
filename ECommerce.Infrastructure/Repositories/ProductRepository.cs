@@ -26,7 +26,7 @@ namespace ECommerce.Infrastructure.Repositories
 
         public async Task<Product?> GetByIdAsync(int id) =>
             await _context.Products.Include(p => p.Category)
-                                   .FirstOrDefaultAsync(p => p.id == id);
+                                   .FirstOrDefaultAsync(p => p.Id == id);
 
         public async Task AddAsync(Product product)
         {
