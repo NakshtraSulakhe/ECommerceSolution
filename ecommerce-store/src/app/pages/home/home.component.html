@@ -1,0 +1,48 @@
+<app-home-slider></app-home-slider>
+<div id="homeCarousel" class="carousel slide" data-bs-ride="carousel">
+
+  <div class="carousel-indicators">
+    <button *ngFor="let b of banners; let i = index"
+            [attr.data-bs-target]="'#homeCarousel'"
+            [attr.data-bs-slide-to]="i"
+            [ngClass]="{'active': i === 0}">
+    </button>
+  </div>
+
+  <div class="carousel-inner">
+    <div *ngFor="let b of banners; let i = index" 
+         class="carousel-item" 
+         [ngClass]="{'active': i === 0}">
+
+      <img [src]="b.imageUrl"
+           class="d-block w-100"
+           alt="banner">
+
+      <div class="carousel-caption d-none d-md-block">
+        <h5>{{ b.title }}</h5>
+      </div>
+
+    </div>
+  </div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#homeCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+
+  <button class="carousel-control-next" type="button" data-bs-target="#homeCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+
+</div>
+</app-home-slider>
+<div class="container mt-4">
+
+  <h3 class="mb-3">Featured Products</h3>
+
+  <div class="row g-3">
+    <div class="col-6 col-md-3" *ngFor="let p of products">
+      <app-product-card [product]="p"></app-product-card>
+    </div>
+  </div>
+
+</div>

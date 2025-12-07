@@ -1,0 +1,15 @@
+<div class="product-card shadow-sm">
+  
+  <img [src]="product.imageUrl" class="product-img">
+
+  <div class="p-2">
+    <h5 class="title">{{ product.name }}</h5>
+    <p class="price">₹ {{ product.price }}</p>
+
+    <button class="btn btn-primary w-100"
+            [routerLink]="'/product/' + product.id">
+      View Details
+    </button>
+  </div>
+
+</div>

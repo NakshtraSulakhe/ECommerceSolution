@@ -1,0 +1,36 @@
+<div class="container mt-4" *ngIf="product">
+
+  <div class="row">
+
+    <!-- LEFT: Image Gallery -->
+    <div class="col-md-6">
+
+      <img [src]="selectedImage" class="main-img">
+
+      <div class="thumbs mt-3">
+        <img [src]="product.imageUrl"
+             class="thumb"
+             [class.active]="selectedImage === product.imageUrl"
+             (click)="changeImage(product.imageUrl)">
+      </div>
+
+    </div>
+
+    <!-- RIGHT: Product Info -->
+    <div class="col-md-6">
+
+      <h2>{{ product.name }}</h2>
+
+      <h4 class="price">₹ {{ product.price }}</h4>
+
+      <p class="description" [innerHTML]="product.description"></p>
+
+      <button class="btn btn-primary btn-lg mt-3" (click)="addToCart()">
+        Add To Cart 🛒
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
