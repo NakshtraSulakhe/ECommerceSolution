@@ -1,0 +1,45 @@
+<div class="container mt-4">
+
+  <div class="d-flex justify-content-between mb-3">
+    <h2>Banners</h2>
+    <button class="btn btn-primary" routerLink="/admin/banners/add">+ Add Banner</button>
+  </div>
+
+  <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>Image</th>
+        <th>Title</th>
+        <th>Type</th>
+        <th>Order</th>
+        <th>Active</th>
+        <th width="160">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let b of banners">
+
+        <td>
+          <img [src]="b.imageUrl" width="80" style="border-radius:4px;">
+        </td>
+
+        <td>{{ b.title }}</td>
+        <td>{{ b.bannerType }}</td>
+        <td>{{ b.displayOrder }}</td>
+        <td>
+          <span class="badge" [ngClass]="b.isActive ? 'bg-success' : 'bg-secondary'">
+            {{ b.isActive ? 'Yes' : 'No' }}
+          </span>
+        </td>
+
+        <td>
+          <button class="btn btn-warning btn-sm me-2" (click)="edit(b.id)">Edit</button>
+          <button class="btn btn-danger btn-sm" (click)="delete(b.id)">Delete</button>
+        </td>
+
+      </tr>
+    </tbody>
+  </table>
+
+</div>

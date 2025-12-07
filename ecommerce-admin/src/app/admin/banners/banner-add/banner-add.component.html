@@ -1,0 +1,44 @@
+<div class="container mt-4">
+
+  <h2>Add New Banner</h2>
+  <hr />
+
+  <div class="mb-3">
+    <label class="form-label">Title</label>
+    <input type="text" class="form-control" [(ngModel)]="title">
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Banner Type</label>
+    <select class="form-select" [(ngModel)]="bannerType">
+      <option value="home">Home Slider</option>
+      <option value="category">Category Banner</option>
+      <option value="offer">Offer Banner</option>
+      <option value="popup">Popup Banner</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Redirect URL (Optional)</label>
+    <input type="text" class="form-control" [(ngModel)]="redirectUrl">
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Display Order</label>
+    <input type="number" class="form-control" [(ngModel)]="displayOrder">
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Active</label>
+    <input type="checkbox" [(ngModel)]="isActive">
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Banner Image</label>
+    <input type="file" class="form-control" (change)="onFileChange($event)">
+  </div>
+
+  <button class="btn btn-success" (click)="save()">Save Banner</button>
+  <button routerLink="/admin/banners" class="btn btn-secondary ms-2">Cancel</button>
+
+</div>

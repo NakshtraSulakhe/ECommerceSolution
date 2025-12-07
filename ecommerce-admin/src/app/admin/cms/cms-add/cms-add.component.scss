@@ -1,0 +1,20 @@
+ .cms-form {
+  .page-header { gap: 1rem; }
+  .title { font-weight: 700; letter-spacing: .2px; }
+
+  .card { border-radius: .75rem; }
+  .card-body { padding: 1.25rem; }
+
+  .form-label { font-weight: 600; color: #374151; }
+  .form-control {
+    border-radius: .5rem;
+    padding: .6rem .75rem;
+  }
+
+  quill-editor {
+    display: block;
+    .ql-editor { min-height: 220px; }
+  }
+
+  .action-bar .btn { border-radius: .5rem; }
+ }

@@ -1,0 +1,49 @@
+<div class="cms-list container py-4">
+
+  <div class="page-header d-flex justify-content-between align-items-center mb-3">
+    <h2 class="title m-0">CMS Pages</h2>
+    <button routerLink="/admin/cms/add" class="btn btn-primary add-btn">
+      + Add New Page
+    </button>
+  </div>
+
+  <div class="card shadow-sm border-0">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Slug</th>
+              <th>Status</th>
+              <th>Updated</th>
+              <th class="text-center" style="width: 160px;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let p of pages">
+              <td>{{ p.title }}</td>
+              <td class="text-muted">{{ p.slug }}</td>
+              <td>
+                <span class="badge status" [ngClass]="p.isActive ? 'bg-success' : 'bg-secondary'">
+                  {{ p.isActive ? 'Active' : 'Disabled' }}
+                </span>
+              </td>
+              <td>{{ p.lastUpdated | date:'medium' }}</td>
+              <td class="text-center">
+                <button class="btn btn-outline-primary btn-sm me-2" (click)="editPage(p.id)">Edit</button>
+                <button class="btn btn-outline-danger btn-sm" (click)="deletePage(p.id)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="pages.length === 0" class="empty-state text-center text-muted">
+    <div class="emoji" aria-hidden="true">📄</div>
+    <p class="mb-0">No CMS pages found. Click <strong>"Add New Page"</strong> to create one.</p>
+  </div>
+
+</div>

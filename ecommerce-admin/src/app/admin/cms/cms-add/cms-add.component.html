@@ -1,0 +1,36 @@
+<div class="cms-form container py-4">
+  <div class="page-header d-flex justify-content-between align-items-center mb-3">
+    <h2 class="title m-0">Create CMS Page</h2>
+    <div>
+      <button routerLink="/admin/cms" class="btn btn-light me-2">Cancel</button>
+      <button class="btn btn-success" (click)="save()">Save Page</button>
+    </div>
+  </div>
+
+  <div class="card shadow-sm border-0">
+    <div class="card-body">
+      <!-- Title -->
+      <div class="mb-3">
+        <label class="form-label">Title</label>
+        <input type="text" class="form-control" [(ngModel)]="title" placeholder="Enter title">
+      </div>
+
+      <!-- Slug -->
+      <div class="mb-3">
+        <label class="form-label">Slug (URL)</label>
+        <input type="text" class="form-control" [(ngModel)]="slug" placeholder="example: about-us">
+      </div>
+
+      <!-- Content -->
+      <div class="mb-2">
+        <label class="form-label">Content</label>
+        <quill-editor [(ngModel)]="content"></quill-editor>
+      </div>
+    </div>
+  </div>
+
+  <div class="action-bar d-flex justify-content-end gap-2 mt-3">
+    <button routerLink="/admin/cms" class="btn btn-outline-secondary">Cancel</button>
+    <button class="btn btn-primary" (click)="save()">Save Page</button>
+  </div>
+</div>

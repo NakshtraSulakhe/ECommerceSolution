@@ -1,0 +1,42 @@
+<div class="admin-wrapper" [ngClass]="{'collapsed': !sidebarOpen}">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h3>E-Commerce Admin</h3>
+    </div>
+
+    <ul class="menu">
+      <li><a routerLink="/admin/cms" routerLinkActive="active">📄 CMS Pages</a></li>
+      <li><a routerLink="/admin/banners" routerLinkActive="active">🖼️ Banners</a></li>
+      <li><a routerLink="/admin/products" routerLinkActive="active">🛒 Products</a></li>
+      <li><a routerLink="/admin/categories" routerLinkActive="active">📁 Categories</a></li>
+      <li><a routerLink="/admin/orders" routerLinkActive="active">📦 Orders</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main">
+
+    <!-- Header -->
+    <header class="header">
+      <button class="toggle-btn" (click)="toggleSidebar()" aria-label="Toggle sidebar">
+        ☰
+      </button>
+      <div class="title">Admin Dashboard</div>
+
+      <div class="right">
+        <button class="btn btn-sm btn-outline-danger">
+          Logout
+        </button>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <main class="content">
+      <router-outlet></router-outlet>
+    </main>
+
+  </div>
+
+</div>

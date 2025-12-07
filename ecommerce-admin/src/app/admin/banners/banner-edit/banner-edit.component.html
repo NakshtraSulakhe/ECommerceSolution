@@ -1,0 +1,57 @@
+<div class="container mt-4">
+
+  <h2>Edit Banner</h2>
+  <hr />
+
+  <!-- Title -->
+  <div class="mb-3">
+    <label class="form-label">Title</label>
+    <input type="text" class="form-control" [(ngModel)]="title">
+  </div>
+
+  <!-- Type -->
+  <div class="mb-3">
+    <label class="form-label">Banner Type</label>
+    <select class="form-select" [(ngModel)]="bannerType">
+      <option value="home">Home Slider</option>
+      <option value="category">Category Banner</option>
+      <option value="offer">Offer Banner</option>
+      <option value="popup">Popup Banner</option>
+    </select>
+  </div>
+
+  <!-- Redirect URL -->
+  <div class="mb-3">
+    <label class="form-label">Redirect URL (Optional)</label>
+    <input type="text" class="form-control" [(ngModel)]="redirectUrl">
+  </div>
+
+  <!-- Display Order -->
+  <div class="mb-3">
+    <label class="form-label">Display Order</label>
+    <input type="number" class="form-control" [(ngModel)]="displayOrder">
+  </div>
+
+  <!-- Status -->
+  <div class="form-check mb-3">
+    <input type="checkbox" class="form-check-input" id="activeCheck" [(ngModel)]="isActive">
+    <label class="form-check-label" for="activeCheck">Active</label>
+  </div>
+
+  <!-- Current Image Preview -->
+  <div class="mb-3">
+    <label class="form-label d-block">Current Banner Image</label>
+    <img [src]="currentImageUrl" width="180" class="rounded border">
+  </div>
+
+  <!-- Replace Image -->
+  <div class="mb-3">
+    <label class="form-label">Replace Image</label>
+    <input type="file" class="form-control" (change)="onFileChange($event)">
+  </div>
+
+  <!-- Buttons -->
+  <button class="btn btn-warning" (click)="update()">Update Banner</button>
+  <button class="btn btn-secondary ms-2" routerLink="/admin/banners">Cancel</button>
+
+</div>
