@@ -1,96 +1,121 @@
-﻿using ECommerce.Application.DTOs;
+﻿using ECommerce.Api.DTOs;
+using ECommerce.Api.Helpers;
+using ECommerce.API.Helpers;
+using ECommerce.Application.DTOs;
 using ECommerce.Domain.Entities;
 using ECommerce.Domain.Interfaces;
-using ECommerce.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ECommerce.API.Controllers;
+namespace ECommerce.Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/banners")]
 public class BannerController : ControllerBase
 {
     private readonly IBannerRepository _repo;
+    private readonly IWebHostEnvironment _env;
 
-    public BannerController(IBannerRepository repo)
+    public BannerController(IBannerRepository repo, IWebHostEnvironment env)
     {
         _repo = repo;
+        _env = env;
     }
 
-    // --------------------------
-    // PUBLIC: Get banners by type
-    // --------------------------
-    [AllowAnonymous]
-    [HttpGet("{type}")]
-    public async Task<IActionResult> GetByType(string type)
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
     {
-        return Ok(await _repo.GetByTypeAsync(type.ToLower()));
+        var banners = await _repo.GetAllAsync();
+        return Ok(banners);
     }
 
-    // --------------------------
-    // ADMIN: Create Banner
-    // --------------------------
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        var banner = await _repo.GetByIdAsync(id);
+        if (banner == null) return NotFound();
+        return Ok(banner);
+    }
+
     [Authorize(Roles = "Admin")]
     [HttpPost]
-    public async Task<IActionResult> Create([FromForm] BannerDto dto,
-                                            [FromForm] IFormFile image,
-                                            [FromServices] ImageHelper helper)
+    public async Task<IActionResult> Create([FromForm] BannerCreateDto dto)
     {
-        if (image == null)
-            return BadRequest("Banner image required");
-
-        string imageUrl = await helper.SaveBannerImageAsync(image, dto.BannerType);
+        string imagePath = ImageHelper.SaveBannerImage(dto.ImageFile, _env.WebRootPath);
 
         var banner = new Banner
         {
             Title = dto.Title,
-            BannerType = dto.BannerType.ToLower(),
+            BannerType = dto.BannerType,
+            DisplayOrder = dto.DisplayOrder,
+            IsActive = dto.IsActive,
             RedirectUrl = dto.RedirectUrl,
             CategoryId = dto.CategoryId,
-            DisplayOrder = dto.DisplayOrder,
-            ImageUrl = imageUrl,
-            IsActive = true
+            ImageUrl = imagePath
         };
 
         await _repo.CreateAsync(banner);
         return Ok(banner);
     }
 
-    // --------------------------
-    // ADMIN: Update Banner
-    // --------------------------
     [Authorize(Roles = "Admin")]
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, BannerUpdateDto dto)
+    public async Task<IActionResult> Update(int id, [FromForm] BannerUpdateDto dto)
     {
         var banner = await _repo.GetByIdAsync(id);
-        if (banner == null)
-            return NotFound();
+        if (banner == null) return NotFound();
 
         banner.Title = dto.Title;
-        banner.BannerType = dto.BannerType.ToLower();
-        banner.RedirectUrl = dto.RedirectUrl;
-        banner.CategoryId = dto.CategoryId;
+        banner.BannerType = dto.BannerType;
         banner.DisplayOrder = dto.DisplayOrder;
         banner.IsActive = dto.IsActive;
+        banner.RedirectUrl = dto.RedirectUrl;
+        banner.CategoryId = dto.CategoryId;
+
+        // Replace image if a new one was uploaded
+        if (dto.ImageFile != null)
+        {
+            string newImagePath = ImageHelper.SaveBannerImage(dto.ImageFile, _env.WebRootPath);
+            banner.ImageUrl = newImagePath;
+        }
 
         await _repo.UpdateAsync(banner);
+
         return Ok(banner);
     }
 
-    // --------------------------
-    // ADMIN: Delete
-    // --------------------------
     [Authorize(Roles = "Admin")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
         var banner = await _repo.GetByIdAsync(id);
-        if (banner == null)
-            return NotFound();
+        if (banner == null) return NotFound();
+
+        // Delete image file
+        var fullPath = _env.WebRootPath + banner.ImageUrl;
+        if (System.IO.File.Exists(fullPath))
+            System.IO.File.Delete(fullPath);
 
         await _repo.DeleteAsync(banner);
-        return Ok("Banner deleted");
+        return Ok();
     }
+
+    [HttpPost("upload")]
+    public async Task<IActionResult> UploadBanner([FromForm] BannerUploadDto dto)
+    {
+        using var ms = new MemoryStream();
+        await dto.Image.CopyToAsync(ms);
+
+        var appDto = new BannerUpdateDto
+        {
+            Id = dto.Id,
+            ImageBytes = ms.ToArray(),
+            FileName = dto.Image.FileName
+        };
+
+        await _bannerService.UpdateAsync(appDto);
+
+        return Ok();
+    }
+
 }

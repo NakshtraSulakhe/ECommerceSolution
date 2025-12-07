@@ -11,5 +11,7 @@ namespace ECommerce.Domain.Interfaces
     {
         Task<Order> PlaceOrderAsync(int userId);
         Task<List<Order>> GetUserOrdersAsync(int userId);
+            Task<Order> CreateAsync(Order order);
+
     }
 }

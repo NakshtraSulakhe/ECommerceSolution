@@ -21,6 +21,12 @@ namespace ECommerce.Infrastructure.Repositories
             _cartRepo = cartRepo;
 
         }
+        public async Task<Order> CreateAsync(Order order)
+        {
+            _db.Orders.Add(order);
+            await _db.SaveChangesAsync();
+            return order;
+        }
 
         public async Task<Order> PlaceOrderAsync(int userId)
         {
@@ -46,7 +52,7 @@ namespace ECommerce.Infrastructure.Repositories
             {
                 _db.OrderItems.Add(new OrderItem
                 {
-                    OrderId = order.Id,
+                    OrderId = order.UserId,
                     ProductId = item.ProductId,
                     Quantity = item.Quantity,
                     Price = item.Product!.Price
